@@ -1,0 +1,88 @@
+NAME
+    Inline::JSX - write Perl program in JSX
+
+SYNOPSIS
+        use Inline 'JSX';
+    
+        print Addition->add(1, 2), "\n";         # => 3
+        print Addition->add('foo', 'bar'), "\n"; # => foobar
+        print Addition->add('foo', 2), "\n";     # => error: type mismatch!
+    
+        __END__
+        __JSX__
+        class Addition {
+            static function add(x:int, y:int) : int {
+                    return x + y;
+            }
+
+            static function add(x:string, y:string) : string {
+                    return x + y;
+            }
+        }
+
+DESCRIPTION
+    Inline::JSX allows you to write JSX code in your Perl source code.
+
+OPTIONS
+  JSX_PATH
+    Path to "jsx" command. You can set it with the environmental variable
+    "PERL_INLINE_JSX_JSX_PATH" too.
+
+  LIB_PATH
+    Path to jsx libray directory. You can set it with the environmental
+    variable "PERL_INLINE_JSX_LIB_PATH" too.
+
+  CLASS_PREFIX
+    Prefix name of classes in Perl code.
+
+        use Inline JSX => 'DATA', CLASS_PREFIX => 'JSX::';
+    
+        my $foo = JSX::Foo->new;
+    
+        __DATA__
+        __JSX__
+    
+        class Foo {}
+
+  CONSOLE_SDOUT
+    Inline::JSX provides JSX's 'log' function that prints a dumped data to
+    "STDOUT". You can use this option with a file path or a file handle to
+    print out to other file handle.
+
+        use Inline JSX => Config => CONSOLE_STDOUT => $file_path;
+
+    You can set it with the environmental variables
+    "PERL_INLINE_JSX_CONSOLE_STDOUT" too.
+
+MAPPING
+           JSX      =>  Perl
+        undefined       undef
+        null            undef
+        int, number     number
+        string          string
+        boolean         1 / !1 (true/false)
+        Object          hash ref
+        Array           array ref
+        Function        JE::Object::Function
+        new Class       blessed object
+        RegExp          Regexp
+        Date            Time::Piece
+
+NOTE
+    JS's "null" is converted to "undef" in Perl while this module supports
+    "Inline::JSX::null()" to pass "null" to Perl-JSX function.
+
+    JS's Date object is converted to Time::Piece.
+
+SEE ALSO
+    Inline, JE, <http://jsx.github.com/>
+
+AUTHOR
+    Makamaka Hannyaharamitu, <makamaka[at]cpan.org>
+
+COPYRIGHT AND LICENSE
+    Copyright 2012 by Makamaka Hannyaharamitu
+
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+

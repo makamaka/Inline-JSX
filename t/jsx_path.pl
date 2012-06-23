@@ -1,0 +1,1 @@
+q{../JSX/bin/jsx};

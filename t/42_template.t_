@@ -1,0 +1,34 @@
+use strict;
+use Test::More;
+use t::Utils;
+
+use Inline JSX => 'DATA', DIRECTORY => '_Inline_test';
+
+ok(1);
+
+done_testing;
+
+__END__
+__JSX__
+
+// from JSX tutorial in the official site
+
+
+class Adder.<T> {
+  var result : T;
+  function constructor(x : T, y : T) {
+    var r = x + y;
+    this.result = r;
+  }
+}
+
+class Test {
+  static function run() : void {
+    var f = new Adder.<number>(1, 3);
+    log f.result;
+    var g = new Adder.<string>("abc", "def");
+    log g.result;
+  }
+}
+
+
